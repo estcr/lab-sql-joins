@@ -2,17 +2,15 @@
 USE sakila;
 -- 1 List the number of films per category.
 
-SELECT sc.name, COUNT(sfc.category_id) as cantidad
+SELECT sc.name, COUNT(*) as cantidad
 FROM sakila.category as sc
 LEFT JOIN sakila.film_category as sfc
 ON sc.category_id = sfc.category_id
 GROUP BY sc.name;
 
 -- 2 Retrieve the store ID, city, and country for each store.
-select * from address;
-select * from country;
 
-SELECT store_id, city, country
+SELECT st.store_id, sc.city, sco.country
 FROM sakila.store as st
 JOIN sakila.address as sa
 ON st.address_id = sa.address_id
@@ -29,6 +27,7 @@ ON ssto.store_id = ssta.store_id
 JOIN sakila.payment as sp
 ON ssta.staff_id = sp.staff_id
 group by ssto.store_id;
+
 -- 4 Determine the average running time of films for each category.
 SELECT sc.name, ROUND(AVG(sf.length),2) as promedio_duracion
 FROM sakila.category as sc
@@ -37,6 +36,7 @@ ON sc.category_id = sfc.category_id
 JOIN sakila.film as sf
 ON sf.film_id = sfc.film_id
 GROUP BY sc.name;
+
 -- Bonus:
 -- 5 Identify the film categories with the longest average running time.
 SELECT sc.name, ROUND(AVG(sf.length),2) as promedio_duracion
@@ -48,7 +48,7 @@ ON sf.film_id = sfc.film_id
 GROUP BY sc.name
 ORDER BY promedio_duracion DESC;
 
--- 6 Display the top 10 most frequently rented movies in descending order. contar rental id
+-- 6 Display the top 10 most frequently rented movies in descending order. 
 SELECT sf.title, count(sr.rental_id) as recuento
 FROM sakila.film as sf
 JOIN sakila.inventory as si
